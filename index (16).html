@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>HAPPY BIRTHDAY ERIK 2026</title>
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    --red: #e10600;
+    --red2: #ff3b30;
+    --dark: #090a0d;
+    --panel: #12151b;
+    --white: #f5f5f5;
+    --muted: #9da3ad;
+    --green: #39ff88;
+  }
+  html, body { margin: 0; min-height: 100%; background: #050608; color: var(--white); font-family: Arial, Helvetica, sans-serif; }
+  body { overflow-x: hidden; }
+  button { font: inherit; }
+
+  .screen {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+  }
+  .screen.active { display: flex; }
+
+  /* Intro */
+  #intro {
+    background:
+      radial-gradient(circle at 50% 20%, rgba(225,6,0,.18), transparent 35%),
+      linear-gradient(135deg, #090a0d 0%, #11141a 55%, #07080a 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #intro::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0 5px, rgba(255,255,255,.015) 6px 7px);
+    pointer-events: none;
+  }
+  .intro-card { width: min(720px, 100%); position: relative; z-index: 1; }
+  .country-flags {
+    display: flex; justify-content: center; align-items: center; gap: 10px;
+    margin-bottom: 18px; font-size: 30px; line-height: 1;
+  }
+  .country-flags span { display: inline-block; }
+
+  .card-title {
+    color: #8f949d; font-size: 10px; letter-spacing: .18em; font-weight: 800;
+    margin-bottom: 22px; text-transform: uppercase;
+  }
+  .eyebrow {
+    color: var(--red2); font-size: 13px; letter-spacing: .22em; font-weight: 800;
+    margin-bottom: 14px;
+  }
+  h1 {
+    margin: 0; font-size: clamp(42px, 9vw, 88px); line-height: .9;
+    font-weight: 950; letter-spacing: -.055em;
+    text-transform: uppercase;
+  }
+  .intro-title span { color: var(--red); }
+  .date {
+    display: inline-block; margin: 22px 0 28px; padding: 9px 15px;
+    border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.04);
+    letter-spacing: .16em; font-size: 13px; font-weight: 800;
+  }
+  .briefing {
+    max-width: 540px; margin: 0 auto 28px; color: #d5d8dd; line-height: 1.65;
+  }
+  .radio {
+    margin: 0 auto 30px; padding: 16px 18px; text-align: left; max-width: 560px;
+    border-left: 3px solid var(--red); background: rgba(255,255,255,.035);
+    color: #dfe2e7; font-size: 14px; line-height: 1.55;
+  }
+  .radio strong { color: white; }
+  .start-btn, .restart-btn {
+    border: 0; background: var(--red); color: white; cursor: pointer;
+    padding: 15px 30px; border-radius: 5px; font-weight: 900; letter-spacing: .08em;
+    text-transform: uppercase; box-shadow: 0 8px 30px rgba(225,6,0,.25);
+    transition: transform .15s, background .15s;
+  }
+  .start-btn:hover, .restart-btn:hover { background: #ff1b14; transform: translateY(-2px); }
+
+  /* Race */
+  #race { padding: 0; align-items: stretch; background: #06070a; }
+  .race-wrap { width: min(920px, 100%); margin: auto; display: flex; flex-direction: column; min-height: 100vh; }
+  .hud {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: 12px; padding: 11px 14px; background: #0d0f13; border-bottom: 1px solid #292c32;
+    position: relative; z-index: 5;
+  }
+  .hud .left { font-weight: 900; font-size: 12px; letter-spacing: .1em; }
+  .hud .center { text-align: center; font-size: 12px; color: var(--muted); font-weight: 800; }
+  .hud .right { text-align: right; font-variant-numeric: tabular-nums; font-weight: 900; font-size: 13px; }
+  .track-shell {
+    flex: 1; display: flex; align-items: stretch; justify-content: center;
+    background: #1c1e21; overflow: hidden; position: relative;
+  }
+  .track {
+    width: min(560px, 78vw); height: calc(100vh - 104px); min-height: 500px;
+    position: relative; overflow: hidden;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 50%, rgba(255,255,255,.05) 50% 52%, transparent 52%),
+      #303237;
+    border-left: 9px solid #f0f0f0; border-right: 9px solid #f0f0f0;
+    box-shadow: inset 0 0 50px rgba(0,0,0,.65);
+  }
+  .track::before, .track::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 9px; z-index: 1;
+    background: repeating-linear-gradient(to bottom, #fff 0 26px, #d71920 26px 52px);
+  }
+  .track::before { left: 0; } .track::after { right: 0; }
+  .road-lines {
+    position: absolute; inset: -100% 50% 0; width: 4px; margin-left: -2px;
+    background: repeating-linear-gradient(to bottom, rgba(255,255,255,.65) 0 34px, transparent 34px 72px);
+    animation: road 1.15s linear infinite;
+    animation-play-state: running;
+    opacity: .55;
+  }
+  @keyframes road { to { transform: translateY(72px); } }
+
+  .movie {
+    position: absolute; z-index: 3; width: min(112px, 24vw); min-height: 54px;
+    padding: 6px 5px; border-radius: 6px; background: #111318; color: white;
+    border: 2px solid #555b65; box-shadow: 0 8px 22px rgba(0,0,0,.4);
+    text-align: center; font-size: 9px; font-weight: 900; line-height: 1.1;
+    display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    user-select: none; pointer-events: none;
+  }
+  .movie .film { font-size: 14px; }
+  .movie .tag { color: #b9bec7; font-size: 8px; letter-spacing: .1em; }
+  .player {
+    position: absolute; z-index: 4; bottom: 40px; left: 50%; width: 68px; height: 112px;
+    transform: translateX(-50%); transition: left .08s linear;
+    filter: drop-shadow(0 9px 10px rgba(0,0,0,.5));
+  }
+  .car-body {
+    position: absolute; left: 15px; top: 7px; width: 38px; height: 94px;
+    background: linear-gradient(90deg, #8b0905, var(--red) 45%, #8b0905);
+    border-radius: 18px 18px 8px 8px; border: 1px solid #ff5a52;
+  }
+  .car-nose { position:absolute; left:25px; top:82px; width:18px; height:25px; background:var(--red); border-radius:4px 4px 9px 9px; }
+  .car-cockpit { position:absolute; left:23px; top:29px; width:22px; height:32px; background:#090a0d; border-radius: 50% 50% 38% 38%; border:2px solid #454951; }
+  .car-wing { position:absolute; left:3px; top:91px; width:62px; height:9px; background:#08090b; border-radius:3px; }
+  .wheel { position:absolute; width:12px; height:31px; background:#050505; border-radius:6px; top:25px; }
+  .wheel.l1 { left:5px; } .wheel.r1 { right:5px; }
+  .wheel.l2 { left:5px; top:72px; } .wheel.r2 { right:5px; top:72px; }
+  .car-label { position:absolute; top:62px; left:0; width:68px; text-align:center; font-size:8px; font-weight:900; letter-spacing:.08em; color:white; }
+
+  .controls {
+    position: absolute; left: 0; right: 0; bottom: 13px; z-index: 8;
+    display: flex; justify-content: center; gap: 12px; pointer-events: none;
+  }
+  .control-btn {
+    pointer-events: auto; width: 74px; height: 44px; border: 1px solid #555b65;
+    background: rgba(10,11,14,.88); color: white; border-radius: 6px; font-size: 20px;
+    font-weight: 900; touch-action: none;
+  }
+  .control-btn:active { background: var(--red); }
+  .accelerate-btn { width: 92px; font-size: 12px; letter-spacing: .06em; background: rgba(57,255,136,.16); border-color: var(--green); color: var(--green); }
+
+  .lights {
+    position: absolute; top: 52px; left: 50%; transform: translateX(-50%);
+    z-index: 9; display: flex; gap: 7px; opacity: 0; transition: opacity .2s;
+  }
+  .lights.show { opacity: 1; }
+  .light { width: 22px; height: 22px; background: #250000; border-radius: 50%; border: 2px solid #444; box-shadow: inset 0 0 5px #000; }
+  .light.on { background: var(--red); box-shadow: 0 0 13px rgba(225,6,0,.9); }
+
+  .message {
+    position: absolute; z-index: 10; left: 50%; top: 45%; transform: translate(-50%,-50%) scale(.9);
+    width: min(430px, 82vw); padding: 18px; text-align:center; background: rgba(7,8,10,.94);
+    border: 1px solid #444; border-top: 3px solid var(--red); border-radius: 6px;
+    opacity: 0; pointer-events: none; transition: .25s;
+  }
+  .message.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  .message.correct { border-top-color: var(--green); }
+  .message.correct h2 { color: var(--green); }
+  .message h2 { margin: 0 0 7px; font-size: 22px; }
+  .message p { margin: 0; color: #c5c9cf; font-size: 13px; line-height: 1.5; }
+
+  /* Finish */
+  #finish {
+    background:
+      radial-gradient(circle at 50% 35%, rgba(225,6,0,.17), transparent 38%),
+      #08090c;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .finish-card { width: min(700px, 100%); position: relative; z-index: 2; }
+  .flag {
+    width: 150px; height: 52px; margin: 0 auto 22px;
+    background: conic-gradient(#fff 25%, #111 0 50%, #fff 0 75%, #111 0) 0 0 / 26px 26px;
+    transform: skewX(-8deg); box-shadow: 0 8px 30px rgba(0,0,0,.5);
+  }
+  .finish-card h2 { margin: 0; font-size: clamp(38px, 9vw, 72px); line-height: .95; text-transform: uppercase; letter-spacing: -.05em; }
+  .finish-card h2 span { color: var(--red); }
+  .result {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 25px auto;
+    max-width: 560px;
+  }
+  .result div { background: #12151a; border: 1px solid #292d34; padding: 13px 7px; }
+  .result div:first-child { background: rgba(57,255,136,.12); border-color: #39ff88; }
+  .result div:first-child b { color: #39ff88; }
+  .result b { display:block; font-size: 19px; } .result small { color:var(--muted); font-size:9px; letter-spacing:.1em; }
+  .personal {
+    margin: 20px auto 28px; max-width: 590px; padding: 20px;
+    background: rgba(255,255,255,.035); border: 1px solid #282c33;
+    line-height: 1.7; color: #d9dce1; font-size: 15px;
+  }
+  .personal strong { color: white; }
+  .birthday { color: var(--red2); font-weight: 950; font-size: clamp(28px, 7vw, 52px); margin: 18px 0; text-transform: uppercase; }
+  .confetti { position: fixed; inset: 0; pointer-events:none; z-index:20; overflow:hidden; }
+  .confetti i { position:absolute; top:-20px; width:9px; height:14px; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+  @media (max-width: 600px) {
+    .hud { grid-template-columns: 1fr 1fr; }
+    .hud .center { display:none; }
+    .hud .right { text-align:right; }
+    .track { width: 86vw; }
+    .movie { width: 100px; min-height: 50px; }
+    .controls { gap: 7px; }
+    .control-btn { width: 64px; }
+    .accelerate-btn { width: 78px; font-size: 10px; }
+    .player { bottom: 58px; }
+  }
+</style>
+</head>
+<body>
+
+<section id="intro" class="screen active">
+  <div class="intro-card">
+    <div class="country-flags" aria-label="United Kingdom and Mexico">
+      <span>🇬🇧</span><span>🇲🇽</span>
+    </div>
+    <h1 class="intro-title">The Erik<br><span>Birthday Grand Prix</span></h1>
+    <div class="date">19 SEPTEMBER 2026 · SPECIAL EVENT</div>
+
+    <div class="radio">
+      Your mission: <strong>collect the movies Erik and Tia have watched together</strong>
+      and avoid the ones they haven't. There are three movies on the list!
+    </div>
+
+    <button class="start-btn" id="startBtn">Start Race</button>
+  </div>
+</section>
+
+<section id="race" class="screen">
+  <div class="race-wrap">
+    <div class="hud">
+      <div class="left">ERIK RACING</div>
+      <div class="center">BIRTHDAY GRAND PRIX</div>
+      <div class="right">RIGHT <span id="rightCount">0</span>/3 · WRONG <span id="wrongCount">0</span></div>
+    </div>
+    <div class="track-shell">
+      <div class="track" id="track">
+        <div class="road-lines"></div>
+        <div class="lights" id="lights">
+          <i class="light"></i><i class="light"></i><i class="light"></i><i class="light"></i><i class="light"></i>
+        </div>
+        <div class="player" id="player" aria-label="Erik's F1 car">
+          <div class="wheel l1"></div><div class="wheel r1"></div>
+          <div class="wheel l2"></div><div class="wheel r2"></div>
+          <div class="car-body"></div><div class="car-cockpit"></div>
+          <div class="car-nose"></div><div class="car-wing"></div>
+          <div class="car-label">ERIK</div>
+        </div>
+        <div class="message" id="message"><h2></h2><p></p></div>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="leftBtn" aria-label="Move left">◀</button>
+        <button class="control-btn" id="rightBtn" aria-label="Move right">▶</button>
+        <button class="control-btn accelerate-btn" id="accelerateBtn" aria-label="Accelerate">ACCEL</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="finish" class="screen">
+  <div class="finish-card">
+    <div class="country-flags finish-flags" aria-label="United Kingdom and Mexico">
+      <span>🇬🇧</span><span>🇲🇽</span>
+    </div>
+    <div class="flag"></div>
+    <h2>Erik Birthday<br><span>E-Card 2026</span></h2>
+    <div class="birthday">🎂 19 September 🎂</div>
+
+    <div class="result">
+      <div><b id="finalRight">0/3</b><small>RIGHT</small></div>
+      <div><b id="finalWrong">0</b><small>WRONG</small></div>
+      <div><b>🏁</b><small>FINISH</small></div>
+    </div>
+
+    <div class="personal">
+      We ended up becoming friends despite living on opposite sides of the world,
+      watching movies together and talking about random stuff. And somehow we even ended up
+      sharing the same birthday!!
+      <br><br>
+      Wishing you an amazing day and reaching all your goals this year. Here's to another year of memories.
+      <br><br>
+      <strong>Happy birthday, birthday twin. 🏎️❤️ - From Tia 🇬🇧🇲🇽</strong>
+    </div>
+
+    <button class="restart-btn" id="restartBtn">Race Again</button>
+  </div>
+  <div class="confetti" id="confetti"></div>
+</section>
+
+<script>
+(() => {
+  const goodMovies = [
+    "Legally Blonde",
+    "Ford v Ferrari",
+    "Eternal Sunshine of the Spotless Mind"
+  ];
+
+  const badMovies = [
+    "The Odyssey",
+    "The Matrix",
+    "Interstellar",
+    "The Hangover",
+    "Jurassic Park",
+    "Back to the Future",
+    "The Fast and the Furious"
+  ];
+
+  const intro = document.getElementById("intro");
+  const race = document.getElementById("race");
+  const finish = document.getElementById("finish");
+  const startBtn = document.getElementById("startBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const track = document.getElementById("track");
+  const player = document.getElementById("player");
+  const rightCountEl = document.getElementById("rightCount");
+  const wrongCountEl = document.getElementById("wrongCount");
+  const message = document.getElementById("message");
+  const lights = document.getElementById("lights");
+  const confetti = document.getElementById("confetti");
+
+  let running = false;
+  let x = 50;
+  let collected = new Set();
+  let rightCount = 0;
+  let wrongCount = 0;
+  let objects = [];
+  let animationId;
+  let lastTime = 0;
+  let spawnTimer = 0;
+  let elapsed = 0;
+  let speed = 36;
+  let accelerating = false;
+
+  function showScreen(el) {
+    [intro, race, finish].forEach(s => s.classList.remove("active"));
+    el.classList.add("active");
+  }
+
+  function resetGame() {
+    cancelAnimationFrame(animationId);
+    stopAllControls();
+    accelerating = false;
+    objects.forEach(o => o.el.remove());
+    objects = [];
+    x = 50; collected = new Set(); movieQueue = buildMovieQueue(); rightCount = 0; wrongCount = 0;
+    elapsed = 0; speed = 36; spawnTimer = 0; running = false; accelerating = false;
+    rightCountEl.textContent = "0";
+    wrongCountEl.textContent = "0";
+    player.style.left = "50%";
+  }
+
+  function startGame() {
+    resetGame();
+    showScreen(race);
+    countdown();
+  }
+
+  function countdown() {
+    lights.classList.add("show");
+    const ls = [...lights.querySelectorAll(".light")];
+    ls.forEach(l => l.classList.remove("on"));
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < 5) ls[i++].classList.add("on");
+      else {
+        clearInterval(timer);
+        setTimeout(() => {
+          ls.forEach(l => l.classList.remove("on"));
+          lights.classList.remove("show");
+          running = true;
+          lastTime = performance.now();
+          spawnMovie();
+          spawnTimer = 0;
+          animationId = requestAnimationFrame(loop);
+        }, 350);
+      }
+    }, 430);
+  }
+
+  let movieQueue = [];
+
+  function shuffle(array) {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function buildMovieQueue() {
+    // Start with all 10 movies. Once these have passed, missed movies
+    // are added back into the pool so every missed movie can return.
+    return shuffle([
+      ...goodMovies.map(name => ({ name, good: true })),
+      ...badMovies.map(name => ({ name, good: false }))
+    ]);
+  }
+
+  function chooseMovie() {
+    if (!movieQueue.length) {
+      const missedGood = goodMovies
+        .filter(name => !collected.has(name))
+        .map(name => ({ name, good: true }));
+
+      // Wrong movies always loop. Missed correct movies also loop until collected.
+      movieQueue = shuffle([
+        ...missedGood,
+        ...badMovies.map(name => ({ name, good: false }))
+      ]);
+    }
+    return movieQueue.shift();
+  }
+
+  function spawnMovie() {
+    const movie = chooseMovie();
+    const el = document.createElement("div");
+    el.className = "movie" + (movie.good ? " good" : "");
+    el.innerHTML = `<div class="film">🎬</div><div>${movie.name}</div>`;
+    const left = 9 + Math.random() * 70;
+    el.style.left = left + "%";
+    el.style.top = "-105px";
+    track.appendChild(el);
+    objects.push({ el, movie, y: -105, left });
+  }
+
+  function rectsOverlap(a, b) {
+    return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+  }
+
+  function collect(obj) {
+    obj.el.remove();
+    objects = objects.filter(o => o !== obj);
+
+    if (obj.movie.good) {
+      if (!collected.has(obj.movie.name)) {
+        collected.add(obj.movie.name);
+        rightCount++;
+        rightCountEl.textContent = rightCount;
+        showMessage("RIGHT ✓", obj.movie.name, true);
+        if (obj.movie.name === "Ford v Ferrari") {
+          speed += 7;
+        }
+      }
+      if (collected.size === 3) {
+        setTimeout(() => finishRace(), 900);
+      }
+    } else {
+      wrongCount++;
+      wrongCountEl.textContent = wrongCount;
+      showMessage("WRONG ✕", obj.movie.name, false);
+    }
+  }
+
+  function showMessage(title, text, correct = false) {
+    message.querySelector("h2").textContent = title;
+    message.querySelector("p").textContent = text;
+    message.classList.toggle("correct", correct);
+    message.classList.add("show");
+    clearTimeout(showMessage.t);
+    showMessage.t = setTimeout(() => message.classList.remove("show"), 1000);
+  }
+
+  function finishRace() {
+    if (!running) return;
+    running = false;
+    cancelAnimationFrame(animationId);
+    document.getElementById("finalRight").textContent = `${rightCount}/3`;
+    document.getElementById("finalWrong").textContent = wrongCount;
+    showScreen(finish);
+    makeConfetti();
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const dt = Math.min((now - lastTime) / 1000, .05);
+    lastTime = now;
+    elapsed += dt;
+    spawnTimer += dt;
+
+    const baseSpeed = Math.min(55, 36 + elapsed * 0.8);
+    speed = accelerating ? Math.min(170, baseSpeed + 105) : baseSpeed;
+    document.querySelector(".road-lines").style.animationDuration =
+      (accelerating ? Math.max(.16, 1.15 - speed * .012) : 1.15) + "s";
+
+    if (spawnTimer > Math.max(2.0, 2.6 - elapsed * .004)) {
+      spawnMovie();
+      spawnTimer = 0;
+    }
+
+    const trackRect = track.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+
+    for (const obj of [...objects]) {
+      obj.y += speed * dt;
+      obj.el.style.top = obj.y + "px";
+
+      const r = obj.el.getBoundingClientRect();
+      if (rectsOverlap(r, playerRect)) {
+        collect(obj);
+        if (!running) return;
+      } else if (obj.y > track.clientHeight + 120) {
+        obj.el.remove();
+        objects = objects.filter(o => o !== obj);
+      }
+    }
+
+    animationId = requestAnimationFrame(loop);
+  }
+
+  function move(dir) {
+    if (!running) return;
+    x = Math.max(11, Math.min(89, x + dir * 5));
+    player.style.left = x + "%";
+  }
+
+  document.addEventListener("keydown", e => {
+    if (!running) return;
+
+    const key = e.key.toLowerCase();
+
+    if (e.key === "ArrowLeft" || key === "a") {
+      e.preventDefault();
+      e.stopPropagation();
+      move(-1);
+    } else if (e.key === "ArrowRight" || key === "d") {
+      e.preventDefault();
+      e.stopPropagation();
+      move(1);
+    } else if (e.key === " " || key === "w" || key === "shift") {
+      e.preventDefault();
+      e.stopPropagation();
+      accelerating = true;
+    }
+  }, true);
+
+  document.addEventListener("keyup", e => {
+    const key = e.key.toLowerCase();
+    if (e.key === " " || key === "w" || key === "shift") {
+      accelerating = false;
+    }
+  }, true);
+
+  let leftHoldInterval = null;
+  let rightHoldInterval = null;
+
+  function stopAllControls() {
+    if (leftHoldInterval) clearInterval(leftHoldInterval);
+    if (rightHoldInterval) clearInterval(rightHoldInterval);
+    leftHoldInterval = null;
+    rightHoldInterval = null;
+  }
+
+  function holdButton(btn, dir) {
+    let interval;
+    const setHoldInterval = value => {
+      if (dir < 0) leftHoldInterval = value;
+      else rightHoldInterval = value;
+    };
+    const start = e => {
+      e.preventDefault();
+      move(dir);
+      clearInterval(interval);
+      interval = setInterval(() => move(dir), 90);
+      setHoldInterval(interval);
+    };
+    const stop = () => {
+      clearInterval(interval);
+      setHoldInterval(null);
+    };
+    btn.addEventListener("pointerdown", start);
+    btn.addEventListener("pointerup", stop);
+    btn.addEventListener("pointerleave", stop);
+    btn.addEventListener("pointercancel", stop);
+  }
+
+  holdButton(document.getElementById("leftBtn"), -1);
+
+  const rightBtn = document.getElementById("rightBtn");
+  holdButton(rightBtn, 1);
+
+  const accelerateBtn = document.getElementById("accelerateBtn");
+
+  accelerateBtn.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    accelerating = true;
+    accelerateBtn.setPointerCapture?.(e.pointerId);
+  });
+
+  const releaseAccelerate = e => {
+    e.preventDefault();
+    accelerating = false;
+  };
+
+  accelerateBtn.addEventListener("pointerup", releaseAccelerate);
+  accelerateBtn.addEventListener("pointercancel", releaseAccelerate);
+  accelerateBtn.addEventListener("lostpointercapture", () => {
+    accelerating = false;
+  });
+
+  startBtn.addEventListener("click", startGame);
+  restartBtn.addEventListener("click", () => {
+    confetti.innerHTML = "";
+    startGame();
+  });
+
+  function makeConfetti() {
+    confetti.innerHTML = "";
+    const symbols = ["🎉","🎂","🏎️","🎈","🏁","🎬","✨"];
+    for (let i = 0; i < 85; i++) {
+      const p = document.createElement("i");
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = Math.random() * 100 + "%";
+      p.style.animationDuration = (2.8 + Math.random() * 3.5) + "s";
+      p.style.animationDelay = (Math.random() * 1.8) + "s";
+      p.style.fontSize = (12 + Math.random() * 15) + "px";
+      confetti.appendChild(p);
+    }
+  }
+})();
+</script>
+</body>
+</html>
